@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+
+<HBox prefHeight="700.0" prefWidth="1000.0" spacing="15.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+
+    <stylesheets>
+        <URL value="@inteface.css" />
+    </stylesheets>
+
+    <padding>
+        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+    </padding>
+
+    <!-- БОКОВАЯ ПАНЕЛЬ -->
+    <VBox spacing="15.0" styleClass="sidebar" prefWidth="260.0" minWidth="260.0">
+        <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+        </padding>
+
+        <HBox alignment="CENTER_LEFT">
+            <Label text="☰" style="-fx-font-size: 18px; -fx-text-fill: #333;" />
+            <Region prefWidth="15" />
+            <Label text="Chats" style="-fx-font-weight: bold; -fx-font-size: 15px; -fx-text-fill: #333;" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Label text="⊕" style="-fx-font-size: 22px; -fx-text-fill: #333;" />
+        </HBox>
+
+        <StackPane alignment="CENTER_RIGHT">
+            <TextField promptText="Search" styleClass="search-field" />
+            <Label text="🔍" style="-fx-padding: 0 10 0 0; -fx-text-fill: #888;" />
+        </StackPane>
+
+        <VBox spacing="5.0" VBox.vgrow="ALWAYS">
+            <Label text="Chats" style="-fx-text-fill: #666666; -fx-font-size: 12px;" />
+            <!-- Здесь будут появляться чаты -->
+        </VBox>
+
+        <HBox alignment="CENTER_LEFT" spacing="10.0">
+            <Circle radius="12.0" fill="#4a69bd" />
+            <Label text="flippy@figma.com" style="-fx-font-size: 13px; -fx-text-fill: #333;" />
+        </HBox>
+    </VBox>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
+    <VBox spacing="15.0" HBox.hgrow="ALWAYS">
+
+        <!-- Пустая область чата (сюда вы будете добавлять сообщения) -->
+        <ScrollPane fitToWidth="true" styleClass="chat-scroll" VBox.vgrow="ALWAYS">
+            <VBox fx:id="chatContainer" spacing="15.0">
+                <padding>
+                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                </padding>
+            </VBox>
+        </ScrollPane>
+
+        <!-- Панель ввода -->
+        <VBox spacing="10.0" styleClass="input-area">
+            <padding>
+                <Insets bottom="12.0" left="15.0" right="15.0" top="15.0" />
+            </padding>
+            <Label text="What would you like to know?" style="-fx-text-fill: #444; -fx-font-size: 14px;" />
+
+            <HBox alignment="CENTER_LEFT">
+                <!-- АКТИВНЫЙ ВЫПАДАЮЩИЙ СПИСОК -->
+                <MenuButton text="byrmolda3.6-plus ↓" styleClass="model-selector">
+                    <items>
+                        <MenuItem text="byrmolda3.6-plus" />
+                        <MenuItem text="GPT-4o" />
+                        <MenuItem text="Claude 3.5 Sonnet" />
+                    </items>
+                </MenuButton>
+
+                <Region HBox.hgrow="ALWAYS" />
+                <Button styleClass="send-btn" text="↑" />
+            </HBox>
+        </VBox>
+    </VBox>
+</HBox>

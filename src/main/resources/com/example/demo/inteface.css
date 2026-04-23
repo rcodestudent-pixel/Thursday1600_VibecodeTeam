@@ -1,0 +1,75 @@
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+/* Фоны основных панелей */
+.sidebar, .chat-scroll, .input-area {
+    -fx-background-color: #E2E2E2;
+    -fx-background-radius: 18;
+}
+
+/* Убираем рамку у скролла */
+.chat-scroll {
+    -fx-background-insets: 0;
+}
+.chat-scroll .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Поле поиска */
+.search-field {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 12;
+    -fx-border-color: transparent;
+    -fx-padding: 8 12;
+}
+
+/* СТИЛЬ ДЛЯ ВЫПАДАЮЩЕГО СПИСКА (КНОПКИ) */
+/* Основной стиль кнопки */
+.model-selector {
+    -fx-background-color: #BEBEBE;
+    -fx-background-radius: 10;
+    -fx-text-fill: #222;
+    -fx-font-size: 13px;
+    -fx-padding: 5 12 5 12; /* Настроили отступы */
+}
+
+/* Полностью скрываем стандартный контейнер со стрелкой */
+.model-selector .arrow-button {
+    -fx-padding: 0;
+    -fx-shape: none;
+}
+
+/* Делаем саму стрелку прозрачной и нулевого размера */
+.model-selector .arrow {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-shape: none;
+}
+/* Стиль самого меню, которое выпадает */
+.context-menu {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);
+}
+
+.menu-item:focused {
+    -fx-background-color: #E2E2E2;
+}
+
+/* Кнопка отправки */
+.send-btn {
+    -fx-background-color: #525252;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-radius: 50;
+    -fx-min-width: 34;
+    -fx-max-width: 34;
+    -fx-min-height: 34;
+    -fx-max-height: 34;
+    -fx-font-size: 16px;
+    -fx-cursor: hand;
+}
+
+.send-btn:hover {
+    -fx-background-color: #333;
+}

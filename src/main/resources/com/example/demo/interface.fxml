@@ -6,7 +6,13 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Circle?>
 
-<HBox prefHeight="700.0" prefWidth="1000.0" spacing="15.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<HBox fx:controller="com.example.demo.GUI_Controller"
+      prefHeight="700.0"
+      prefWidth="1000.0"
+      spacing="15.0"
+      style="-fx-background-color: #FFFFFF;"
+      xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1">
 
     <stylesheets>
         <URL value="@inteface.css" />
@@ -67,11 +73,9 @@
 
             <HBox alignment="CENTER_LEFT">
                 <!-- АКТИВНЫЙ ВЫПАДАЮЩИЙ СПИСОК -->
-                <MenuButton text="byrmolda3.6-plus ↓" styleClass="model-selector">
+                <MenuButton fx:id="modelSelector" text="byrmolda3.6-plus ↓" styleClass="model-selector">
                     <items>
-                        <MenuItem text="byrmolda3.6-plus" />
-                        <MenuItem text="GPT-4o" />
-                        <MenuItem text="Claude 3.5 Sonnet" />
+                        <!-- Достаются из data/models.json-->
                     </items>
                 </MenuButton>
 

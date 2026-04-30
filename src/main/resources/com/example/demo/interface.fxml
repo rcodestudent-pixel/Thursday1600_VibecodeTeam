@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
@@ -43,7 +42,6 @@
 
         <VBox spacing="5.0" VBox.vgrow="ALWAYS">
             <Label text="Chats" style="-fx-text-fill: #666666; -fx-font-size: 12px;" />
-            <!-- Здесь будут появляться чаты -->
         </VBox>
 
         <HBox alignment="CENTER_LEFT" spacing="10.0">
@@ -52,11 +50,18 @@
         </HBox>
     </VBox>
 
-    <!-- ОСНОВНОЙ КОНТЕНТ -->
-    <VBox spacing="15.0" HBox.hgrow="ALWAYS">
+    <!-- ОСНОВНОЙ КОНТЕНТ (ИСПРАВЛЕНО: ТОЛЬКО ОДИН РАЗ) -->
+    <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+        <padding>
+            <!-- top="0.0" уберет белую полосу сверху -->
+            <Insets bottom="0.0" left="0.0" right="0.0" top="0.0" />
+        </padding>
 
-        <!-- Пустая область чата (сюда вы будете добавлять сообщения) -->
-        <ScrollPane fitToWidth="true" styleClass="chat-scroll" VBox.vgrow="ALWAYS">
+        <!-- ОБЛАСТЬ ЧАТА -->
+        <ScrollPane fx:id="chatScrollPane"
+                    fitToWidth="true"
+                    styleClass="custom-scroll-pane"
+                    VBox.vgrow="ALWAYS">
             <VBox fx:id="chatContainer" spacing="15.0">
                 <padding>
                     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -64,23 +69,31 @@
             </VBox>
         </ScrollPane>
 
-        <!-- Панель ввода -->
-        <VBox spacing="10.0" styleClass="input-area">
+        <!-- ПАНЕЛЬ ВВОДА -->
+        <VBox spacing="5.0" styleClass="input-area">
             <padding>
-                <Insets bottom="12.0" left="15.0" right="15.0" top="15.0" />
+                <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
             </padding>
-            <Label text="What would you like to know?" style="-fx-text-fill: #444; -fx-font-size: 14px;" />
+
+            <TextArea fx:id="messageInput"
+                      promptText="What would you like to know?"
+                      prefHeight="60.0"
+                      wrapText="true"
+                      styleClass="main-text-area" />
 
             <HBox alignment="CENTER_LEFT">
-                <!-- АКТИВНЫЙ ВЫПАДАЮЩИЙ СПИСОК -->
                 <MenuButton fx:id="modelSelector" text="byrmolda3.6-plus ↓" styleClass="model-selector">
                     <items>
-                        <!-- Достаются из data/models.json-->
+                        <!-- Элементы добавятся из контроллера -->
                     </items>
                 </MenuButton>
 
                 <Region HBox.hgrow="ALWAYS" />
-                <Button styleClass="send-btn" text="↑" />
+
+                <Button fx:id="sendButton"
+                        styleClass="send-btn"
+                        text="↑"
+                        onAction="#handleSendMessage" />
             </HBox>
         </VBox>
     </VBox>

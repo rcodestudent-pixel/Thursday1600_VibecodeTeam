@@ -1,75 +1,140 @@
+/* --- ГЛОБАЛЬНЫЕ НАСТРОЙКИ --- */
 .root {
     -fx-font-family: "Segoe UI", sans-serif;
+    -fx-background-color: #FFFFFF; /* Основной фон окна */
 }
 
-/* Фоны основных панелей */
-.sidebar, .chat-scroll, .input-area {
+/* --- ОБЛАСТЬ ЧАТА (Серый прямоугольник) --- */
+.custom-scroll-pane {
     -fx-background-color: #E2E2E2;
-    -fx-background-radius: 18;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-background-insets: 0;
+    -fx-border-color: transparent;
 }
 
-/* Убираем рамку у скролла */
-.chat-scroll {
+.custom-scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+#chatContainer {
+    -fx-background-color: transparent;
+}
+
+/* --- СКРОЛЛБАР --- */
+.custom-scroll-pane .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-width: 6px;
+}
+.custom-scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: #BCBCBC;
+    -fx-background-radius: 10;
+}
+.custom-scroll-pane .scroll-bar .increment-button,
+.custom-scroll-pane .scroll-bar .decrement-button {
+    -fx-padding: 0;
+    -fx-shape: "";
+}
+
+/* --- ПАНЕЛЬ ВВОДА (Постоянный размер) --- */
+.input-area {
+    -fx-background-color: #F3F3F3;
+    -fx-background-radius: 20;
+    -fx-padding: 10 15;
+    /* Фиксируем высоту, чтобы поле не прыгало */
+    -fx-min-height: 120px;
+    -fx-max-height: 120px;
+}
+
+.main-text-area {
+    -fx-background-color: transparent;
     -fx-background-insets: 0;
 }
-.chat-scroll .viewport {
+.main-text-area .content {
     -fx-background-color: transparent;
+}
+
+/* --- СООБЩЕНИЯ (БАБЛЫ) --- */
+.chat-bubble-user {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 15 15 2 15;
+    -fx-padding: 10 18;
+    -fx-text-fill: #333333;
+    -fx-min-width: 50; /* Чтобы короткие сообщения не были слишком узкими */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 5, 0, 0, 1);
+}
+
+.chat-bubble-ai {
+    -fx-background-color: #D6D6D6;
+    -fx-background-radius: 15 15 15 2;
+    -fx-padding: 10 18;
+    -fx-text-fill: #222;
+}
+
+/* --- КНОПКА И ВЫБОР МОДЕЛИ --- */
+.send-btn {
+    -fx-background-color: #525252;
+    -fx-text-fill: white;
+    -fx-background-radius: 50;
+    -fx-min-width: 34;
+    -fx-min-height: 34;
+    -fx-cursor: hand;
+}
+.send-btn:hover { -fx-background-color: #333; }
+
+.model-selector {
+    -fx-background-color: #BEBEBE;
+    -fx-background-radius: 10;
+    -fx-padding: 5 12;
+}
+/* --- БОКОВАЯ ПАНЕЛЬ (SIDEBAR) --- */
+.sidebar {
+    -fx-background-color: #F8F8F8; /* Чуть светлее чата, чтобы отделить зоны */
+    -fx-background-radius: 18;
+    -fx-border-color: #E0E0E0;    /* Тонкая линия справа для разделения */
+    -fx-border-width: 0 1 0 0;
 }
 
 /* Поле поиска */
 .search-field {
     -fx-background-color: #FFFFFF;
-    -fx-background-radius: 12;
-    -fx-border-color: transparent;
+    -fx-background-radius: 10;
+    -fx-border-color: #EAEAEA;
+    -fx-border-radius: 10;
     -fx-padding: 8 12;
-}
-
-/* СТИЛЬ ДЛЯ ВЫПАДАЮЩЕГО СПИСКА (КНОПКИ) */
-/* Основной стиль кнопки */
-.model-selector {
-    -fx-background-color: #BEBEBE;
-    -fx-background-radius: 10;
-    -fx-text-fill: #222;
     -fx-font-size: 13px;
-    -fx-padding: 5 12 5 12; /* Настроили отступы */
+    -fx-text-fill: #333;
 }
 
-/* Полностью скрываем стандартный контейнер со стрелкой */
-.model-selector .arrow-button {
-    -fx-padding: 0;
-    -fx-shape: none;
+.search-field:focused {
+    -fx-border-color: #4a69bd; /* Подсветка при клике */
 }
 
-/* Делаем саму стрелку прозрачной и нулевого размера */
-.model-selector .arrow {
-    -fx-background-color: transparent;
-    -fx-padding: 0;
-    -fx-shape: none;
-}
-/* Стиль самого меню, которое выпадает */
-.context-menu {
-    -fx-background-color: #FFFFFF;
-    -fx-background-radius: 10;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);
+/* Элементы списка чатов (заглушки) */
+.sidebar .label {
+    -fx-text-fill: #333333;
 }
 
-.menu-item:focused {
-    -fx-background-color: #E2E2E2;
+/* Название разделов (например, "Chats") */
+.sidebar-header-label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #222222;
 }
 
-/* Кнопка отправки */
-.send-btn {
-    -fx-background-color: #525252;
-    -fx-text-fill: #FFFFFF;
-    -fx-background-radius: 50;
-    -fx-min-width: 34;
-    -fx-max-width: 34;
-    -fx-min-height: 34;
-    -fx-max-height: 34;
-    -fx-font-size: 16px;
+/* Нижняя панель профиля */
+.user-profile-box {
+    -fx-padding: 10 0 0 0;
+    -fx-border-color: #EAEAEA;
+    -fx-border-width: 1 0 0 0; /* Линия сверху над профилем */
+}
+
+/* Иконки-символы (☰, ⊕) */
+.icon-label {
     -fx-cursor: hand;
+    -fx-text-fill: #666666;
+    -fx-transition: 0.2s;
 }
 
-.send-btn:hover {
-    -fx-background-color: #333;
+.icon-label:hover {
+    -fx-text-fill: #333333;
 }

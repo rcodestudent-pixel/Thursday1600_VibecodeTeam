@@ -1,5 +1,9 @@
 package com.example.demo;
 
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
@@ -8,12 +12,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import javafx.scene.input.KeyCode;
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.geometry.Insets;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.paint.Color;
 
 public class GUI_Controller {
 
@@ -30,23 +33,48 @@ public class GUI_Controller {
     private TextArea messageInput;    // Поле, откуда берем текст
 
     @FXML
-    private Button sendButton;        // Кнопка отправки (↑)
+    private Button sendButton;        // Кнопка отправки ()
 
     @FXML
     public void initialize() {
         loadModelsFromJson();
         setupAutoScroll();       // Настраиваем поведение скролла
         setupKeyboardShortcuts(); // Настраиваем горячие клавиши (Enter)
+        // Инициализируем посредника (он сам проверит файлы и загрузит данные)
+        dataManager = new DataManager();
+
+        // Настраиваем слушатель изменений (чтобы UI реагировал на новые данные в DataManager)
+        dataManager.getMessages().addListener((javafx.collections.ListChangeListener<DataManager.ChatMessage>) change -> {
+            while (change.next()) {
+                if (change.wasAdded()) {
+                    for (DataManager.ChatMessage msg : change.getAddedSubList()) {
+                        createMessageBubble(msg.getText(), msg.isUser());
+                    }
+                }
+                if (change.wasRemoved()) {
+                    chatContainer.getChildren().clear(); // Если история очищена
+                }
+            }
+        });
+
+        // Отрисовываем то, что уже было в файле при запуске
+        dataManager.getMessages().forEach(msg -> createMessageBubble(msg.getText(), msg.isUser()));
+
+        loadModelsFromJson();
+        setupAutoScroll();
+        setupKeyboardShortcuts();
     }
 
     @FXML
     public void handleSendMessage(){
         String text = messageInput.getText().trim();
         if (!text.isEmpty()) {
-            createMessageBubble(text, true); // Создаем бабл пользователя
-            messageInput.clear();           // Очищаем поле
+            dataManager.addMessage(text, true);
+            messageInput.clear();
         }
     }
+
+    private DataManager dataManager; // Посредник между интерфейсом и данными
 
     private void loadModelsFromJson() {
         try {
@@ -80,17 +108,47 @@ public class GUI_Controller {
     }
 
     private void createMessageBubble(String message, boolean isUser) {
+        // 1. Внешний контейнер ряда
         HBox wrapper = new HBox();
         wrapper.setAlignment(isUser ? Pos.CENTER_RIGHT : Pos.CENTER_LEFT);
+        VBox.setMargin(wrapper, new Insets(5, 15, 5, 15));
 
-        Label bubble = new Label(message);
-        bubble.setWrapText(true);
-        bubble.setMaxWidth(500); // Ограничение ширины для переноса строк
+        // 2. Основной контейнер бабла (Белый фон)
+        VBox bubble = new VBox(2);
+        bubble.setMaxWidth(420);
+        bubble.setPadding(new Insets(8, 12, 10, 12));
 
-        // Присваиваем класс из CSS в зависимости от отправителя
-        bubble.getStyleClass().add(isUser ? "chat-bubble-user" : "chat-bubble-ai");
+        // Стилизация: Белый фон, тонкая серая рамка и аккуратные углы
+        String rounding = isUser ? "12 12 2 12" : "12 12 12 2";
+        bubble.setStyle(
+                "-fx-background-color: #FFFFFF; " +            // Белый цвет бабла
+                        "-fx-background-radius: " + rounding + "; " +
+                        "-fx-border-color: #E0E0E0; " +                // Тонкая рамка, чтобы бабл не терялся
+                        "-fx-border-radius: " + rounding + "; " +
+                        "-fx-border-width: 1px;"
+        );
 
+        // 3. Подпись (Имя) — Серая
+        Label nameLabel = new Label(isUser ? "Вы" : "AI Assistant");
+        nameLabel.setStyle("-fx-font-size: 9px; -fx-font-weight: bold; -fx-text-fill: #888888;");
+
+        // 4. Текст сообщения — Черный
+        Label messageText = new Label(message);
+        messageText.setWrapText(true);
+        messageText.setStyle("-fx-font-size: 13px; -fx-text-fill: #202124; -fx-line-spacing: 1.2px;");
+
+        // 5. Едва заметная тень для объема
+        DropShadow softShadow = new DropShadow();
+        softShadow.setRadius(3);
+        softShadow.setOffsetY(1);
+        softShadow.setColor(Color.rgb(0, 0, 0, 0.05)); // Очень слабая тень
+        bubble.setEffect(softShadow);
+
+        // Сборка
+        bubble.getChildren().addAll(nameLabel, messageText);
         wrapper.getChildren().add(bubble);
+
+        // Добавление в чат
         chatContainer.getChildren().add(wrapper);
     }
 

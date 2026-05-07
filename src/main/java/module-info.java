@@ -4,6 +4,7 @@ module com.example.demo {
 
     requires com.fasterxml.jackson.databind;
 
-    opens com.example.demo to javafx.fxml;
+    opens com.example.demo to javafx.fxml, com.fasterxml.jackson.databind;
+
     exports com.example.demo;
 }
